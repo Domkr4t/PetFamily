@@ -5,15 +5,15 @@ namespace PetFamily.Domain
 {
     public class Pet
     {
+        private readonly List<BankDetails> _bankDetails = [];
+
         public Guid Id { get; private set; }
 
         public string Name { get; private set; } = default!;
 
-        public AnimalDetails Type { get; private set; } = default!;
+        public AnimalDetails AnimalDetails { get; private set; } = default!;
 
         public string Description { get; private set; } = default!;
-
-        public AnimalDetails Breed { get; private set; } = default!;
 
         public string Coloring { get; private set; } = default!;
 
@@ -25,7 +25,7 @@ namespace PetFamily.Domain
 
         public int Growth { get; private set; }
 
-        public Volunteer VolunteerTelephone { get; private set; } = default!;
+        public PhoneNumber VolunteerTelephone { get; private set; } = default!;
 
         public bool IsCastrated { get; private set; }
 
@@ -35,7 +35,7 @@ namespace PetFamily.Domain
 
         public AssistanceStatus AssistanceStatus { get; private set; }
 
-        public Volunteer VolunteerBankDetails { get; private set; } = default!;
+        public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
 
         //For EF Core
         private Pet()
@@ -43,12 +43,22 @@ namespace PetFamily.Domain
 
         }
 
-        private Pet(string name, AnimalDetails type, string description, AnimalDetails breed, string coloring, string petHealthInfo, string address, int weight, int growth, Volunteer volunteerTelephone, bool isCastrated, DateOnly dateOfBirth, bool isVaccinated, AssistanceStatus assistanceStatus, Volunteer volunteerBankDetails)
+        private Pet(string name, 
+                    string description, 
+                    string coloring, 
+                    string petHealthInfo, 
+                    string address, 
+                    int weight, 
+                    int growth, 
+                    PhoneNumber volunteerTelephone, 
+                    bool isCastrated, 
+                    DateOnly dateOfBirth, 
+                    bool isVaccinated, 
+                    AssistanceStatus assistanceStatus, 
+                    List<BankDetails> bankDetails)
         {
             Name = name;
-            Type = type;
             Description = description;
-            Breed = breed;
             Coloring = coloring;
             PetHealthInfo = petHealthInfo;
             Address = address;
@@ -59,22 +69,32 @@ namespace PetFamily.Domain
             DateOfBirth = dateOfBirth;
             IsVaccinated = isVaccinated;
             AssistanceStatus = assistanceStatus;
-            VolunteerBankDetails = volunteerBankDetails;
+            _bankDetails = bankDetails;
         }
 
-        public static Result<Pet> Create (string name, AnimalDetails type, string description, AnimalDetails breed, string coloring, string petHealthInfo, string address, int weight, int growth, Volunteer volunteerTelephone, bool isCastrated, DateOnly dateOfBirth, bool isVaccinated, AssistanceStatus assistanceStatus, Volunteer volunteerBankDetails) 
+        public static Result<Pet> Create (string name, 
+                                          AnimalDetails animalDetails, 
+                                          string description, 
+                                          string coloring, 
+                                          string petHealthInfo, 
+                                          string address, 
+                                          int weight, 
+                                          int growth, 
+                                          PhoneNumber volunteerTelephone, 
+                                          bool isCastrated,
+                                          DateOnly dateOfBirth, 
+                                          bool isVaccinated, 
+                                          AssistanceStatus assistanceStatus, 
+                                          List<BankDetails> bankDetails) 
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("У животного должно быть имя!");
 
-            if (type is null)
-                return Result.Failure<Pet>("У животного должен быть вид!");
+            if (animalDetails is null)
+                return Result.Failure<Pet>("У животного должна быть информация о виде и породе!");
 
             if (string.IsNullOrWhiteSpace(description))
                 return Result.Failure<Pet>("У животного должно быть описание!");
-
-            if (breed is null)
-                return Result.Failure<Pet>("У животного должна быть порода!");
 
             if (string.IsNullOrWhiteSpace(description))
                 return Result.Failure<Pet>("У животного должно быть описание!");
@@ -97,10 +117,10 @@ namespace PetFamily.Domain
             if (volunteerTelephone is null)
                 return Result.Failure<Pet>("Не прикреплен телефон волонтера!");
 
-            if (volunteerTelephone is null)
+            if (bankDetails is null)
                 return Result.Failure<Pet>("Не прикреплены банковские реквизиты для помощи животному!");
 
-            var pet = new Pet(name, type, description, breed, coloring, petHealthInfo, address, weight, growth, volunteerTelephone, isCastrated, dateOfBirth, isVaccinated, assistanceStatus, volunteerBankDetails);
+            var pet = new Pet(name, description, coloring, petHealthInfo, address, weight, growth, volunteerTelephone, isCastrated, dateOfBirth, isVaccinated, assistanceStatus, bankDetails);
 
             return Result.Success(pet);
         }
