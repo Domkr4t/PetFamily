@@ -1,11 +1,38 @@
-﻿namespace PetFamily.Domain
+﻿using CSharpFunctionalExtensions;
+
+namespace PetFamily.Domain
 {
     public class AnimalDetails
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
-        public string Type { get; set; } = default!;
+        public string Type { get; private set; } = default!;
 
-        public string Breed { get; set; } = default!;
+        public string Breed { get; private set; } = default!;
+
+        //For EF Core
+        private AnimalDetails()
+        {
+
+        }
+
+        private AnimalDetails(string type, string breed)
+        {
+            Type = type;
+            Breed = breed;
+        }
+
+        public static Result<AnimalDetails> Create (string type, string breed)
+        {
+            if (string.IsNullOrWhiteSpace(type))
+                return Result.Failure<AnimalDetails>("Не введен тип питомца!");
+
+            if (string.IsNullOrWhiteSpace(breed))
+                return Result.Failure<AnimalDetails>("Не введена порода питомца!");
+
+            var animalDetails = new AnimalDetails(type, breed);
+
+            return Result.Success(animalDetails);
+        }
     }
 }

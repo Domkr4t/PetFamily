@@ -6,17 +6,17 @@ namespace PetFamily.Domain
 {
     public class BankDetails
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
 
-        public string BankName { get; set; } = default!;
+        public string BankName { get; private set; } = default!;
 
-        public string BIC { get; set; } = default!;
+        public string BIC { get; private set; } = default!;
 
-        public string CorrespondentAccount { get; set; } = default!;
+        public string CorrespondentAccount { get; private set; } = default!;
 
-        public string INN { get; set; } = default!;
+        public string INN { get; private set; } = default!;
 
-        public string KPP { get; set; } = default!;
+        public string KPP { get; private set; } = default!;
 
         //For EF Core
         private BankDetails() 
