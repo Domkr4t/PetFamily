@@ -29,11 +29,11 @@ namespace PetFamily.Domain
 
         public bool IsCastrated { get; private set; }
 
-        public DateOnly DateOfBirth { get; private set; }
+        public DateOnly DateOfBirth { get; private set; } = default!;
 
         public bool IsVaccinated { get; private set; }
 
-        public AssistanceStatus AssistanceStatus { get; private set; }
+        public AssistanceStatus AssistanceStatus { get; private set; } = default!;
 
         public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
 
