@@ -24,8 +24,9 @@ namespace PetFamily.Domain
             
         }
 
-        private BankDetails(string bankName, string bic, string correspondentAccount, string inn, string kpp)
+        private BankDetails(Guid id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
         {
+            Id = id;
             BankName = bankName;
             BIC = bic;
             CorrespondentAccount = correspondentAccount;
@@ -33,7 +34,7 @@ namespace PetFamily.Domain
             KPP = kpp;
         }
 
-        public static Result<BankDetails> Create(string bankName, string bic, string correspondentAccount, string inn, string kpp)
+        public static Result<BankDetails> Create(Guid id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
         {
             if (string.IsNullOrWhiteSpace(bankName))
                 return Result.Failure<BankDetails>("Не введено название банка");
@@ -59,7 +60,7 @@ namespace PetFamily.Domain
             if (kpp.Length != 9)
                 return Result.Failure<BankDetails>("Неправильное количество символов в КПП");
 
-            var bankDetails = new BankDetails(bankName, bic, correspondentAccount, inn, kpp);
+            var bankDetails = new BankDetails(id, bankName, bic, correspondentAccount, inn, kpp);
 
             return Result.Success(bankDetails);
         }

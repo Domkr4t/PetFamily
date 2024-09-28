@@ -14,7 +14,9 @@ namespace PetFamily.Domain
 
         public string FirstName { get; private set; } = default!;
 
-        public string? Patronymic { get; private set; } 
+        public string? Patronymic { get; private set; }
+
+        public string Email { get; private set; } = default!;
 
         public string Description { get; private set; } = default!;
 
@@ -40,12 +42,14 @@ namespace PetFamily.Domain
 
         }
 
-        private Volunteer(List<Pet> pets, 
-                          List<SocialNetwork> socialNetworks, 
-                          List<BankDetails> bankDetails, 
-                          string surname, 
-                          string firstName, 
-                          string? patronymic, 
+        private Volunteer(List<Pet> pets,
+                          List<SocialNetwork> socialNetworks,
+                          List<BankDetails> bankDetails,
+                          Guid id,
+                          string surname,
+                          string firstName,
+                          string? patronymic,
+                          string email,
                           string description, 
                           int yearsOfExperience, 
                           PhoneNumber phoneNumber)
@@ -53,9 +57,11 @@ namespace PetFamily.Domain
             _pets = pets;
             _socialNetworks = socialNetworks;
             _bankDetails = bankDetails;
+            Id = id;
             Surname = surname;
             FirstName = firstName;
             Patronymic = patronymic;
+            Email = email;
             Description = description;
             YearsOfExperience = yearsOfExperience;
             PhoneNumber = phoneNumber;
@@ -64,9 +70,11 @@ namespace PetFamily.Domain
         public static Result<Volunteer> Create(List<Pet> pets, 
                                                List<SocialNetwork> socialNetworks, 
                                                List<BankDetails> bankDetails, 
+                                               Guid id,
                                                string surname, 
                                                string firstName, 
-                                               string? patronymic, 
+                                               string? patronymic,
+                                               string email,
                                                string description, 
                                                int yearsOfExperience, 
                                                PhoneNumber phoneNumber)
@@ -87,6 +95,9 @@ namespace PetFamily.Domain
             if (string.IsNullOrWhiteSpace(firstName))
                 return Result.Failure<Volunteer>("Не введено имя!");
 
+            if (string.IsNullOrWhiteSpace(email))
+                return Result.Failure<Volunteer>("Не введен email!");
+
             if (string.IsNullOrWhiteSpace(description))
                 return Result.Failure<Volunteer>("Не введено описание!");
 
@@ -97,8 +108,8 @@ namespace PetFamily.Domain
                 return Result.Failure<Volunteer>("Не введен номер телефона!");
 
 
-            var volunteer = new Volunteer(pets, socialNetworks, bankDetails, surname, 
-                                          firstName, patronymic, description, yearsOfExperience, phoneNumber);
+            var volunteer = new Volunteer(pets, socialNetworks, bankDetails, id, surname, 
+                                          firstName, patronymic, email, description, yearsOfExperience, phoneNumber);
 
             return Result.Success(volunteer);
         }

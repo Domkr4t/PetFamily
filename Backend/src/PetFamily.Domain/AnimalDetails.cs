@@ -16,13 +16,14 @@ namespace PetFamily.Domain
 
         }
 
-        private AnimalDetails(string type, string breed)
+        private AnimalDetails(Guid id, string type, string breed)
         {
+            Id = id;
             Type = type;
             Breed = breed;
         }
 
-        public static Result<AnimalDetails> Create (string type, string breed)
+        public static Result<AnimalDetails> Create (Guid id, string type, string breed)
         {
             if (string.IsNullOrWhiteSpace(type))
                 return Result.Failure<AnimalDetails>("Не введен тип питомца!");
@@ -30,7 +31,7 @@ namespace PetFamily.Domain
             if (string.IsNullOrWhiteSpace(breed))
                 return Result.Failure<AnimalDetails>("Не введена порода питомца!");
 
-            var animalDetails = new AnimalDetails(type, breed);
+            var animalDetails = new AnimalDetails(id, type, breed);
 
             return Result.Success(animalDetails);
         }

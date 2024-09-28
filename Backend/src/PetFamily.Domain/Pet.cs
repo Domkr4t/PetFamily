@@ -43,7 +43,8 @@ namespace PetFamily.Domain
 
         }
 
-        private Pet(string name, 
+        private Pet(Guid id,
+                    string name, 
                     string description, 
                     string coloring, 
                     string petHealthInfo, 
@@ -57,6 +58,7 @@ namespace PetFamily.Domain
                     AssistanceStatus assistanceStatus, 
                     List<BankDetails> bankDetails)
         {
+            Id = id;
             Name = name;
             Description = description;
             Coloring = coloring;
@@ -72,7 +74,8 @@ namespace PetFamily.Domain
             _bankDetails = bankDetails;
         }
 
-        public static Result<Pet> Create (string name, 
+        public static Result<Pet> Create (Guid id,
+                                          string name, 
                                           AnimalDetails animalDetails, 
                                           string description, 
                                           string coloring, 
@@ -120,7 +123,7 @@ namespace PetFamily.Domain
             if (bankDetails is null)
                 return Result.Failure<Pet>("Не прикреплены банковские реквизиты для помощи питомцу!");
 
-            var pet = new Pet(name, description, coloring, petHealthInfo, address, 
+            var pet = new Pet(id, name, description, coloring, petHealthInfo, address, 
                               weight, growth, volunteerTelephone, isCastrated, dateOfBirth, 
                               isVaccinated, assistanceStatus, bankDetails);
 
