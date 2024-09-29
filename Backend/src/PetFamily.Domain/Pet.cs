@@ -29,11 +29,11 @@ namespace PetFamily.Domain
 
         public bool IsCastrated { get; private set; }
 
-        public DateOnly DateOfBirth { get; private set; }
+        public DateOnly DateOfBirth { get; private set; } = default!;
 
         public bool IsVaccinated { get; private set; }
 
-        public AssistanceStatus AssistanceStatus { get; private set; }
+        public AssistanceStatus AssistanceStatus { get; private set; } = default!;
 
         public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
 
@@ -43,7 +43,8 @@ namespace PetFamily.Domain
 
         }
 
-        private Pet(string name, 
+        private Pet(Guid id,
+                    string name, 
                     string description, 
                     string coloring, 
                     string petHealthInfo, 
@@ -57,6 +58,7 @@ namespace PetFamily.Domain
                     AssistanceStatus assistanceStatus, 
                     List<BankDetails> bankDetails)
         {
+            Id = id;
             Name = name;
             Description = description;
             Coloring = coloring;
@@ -72,7 +74,8 @@ namespace PetFamily.Domain
             _bankDetails = bankDetails;
         }
 
-        public static Result<Pet> Create (string name, 
+        public static Result<Pet> Create (Guid id,
+                                          string name, 
                                           AnimalDetails animalDetails, 
                                           string description, 
                                           string coloring, 
@@ -88,25 +91,25 @@ namespace PetFamily.Domain
                                           List<BankDetails> bankDetails) 
         {
             if (string.IsNullOrWhiteSpace(name))
-                return Result.Failure<Pet>("У животного должно быть имя!");
+                return Result.Failure<Pet>("У питомца должно быть имя!");
 
             if (animalDetails is null)
-                return Result.Failure<Pet>("У животного должна быть информация о виде и породе!");
+                return Result.Failure<Pet>("У питомца должна быть информация о виде и породе!");
 
             if (string.IsNullOrWhiteSpace(description))
-                return Result.Failure<Pet>("У животного должно быть описание!");
+                return Result.Failure<Pet>("У питомца должно быть описание!");
 
             if (string.IsNullOrWhiteSpace(description))
-                return Result.Failure<Pet>("У животного должно быть описание!");
+                return Result.Failure<Pet>("У питомца должно быть описание!");
 
             if (string.IsNullOrWhiteSpace(coloring))
-                return Result.Failure<Pet>("У животного должен быть окрас!");
+                return Result.Failure<Pet>("У питомца должен быть окрас!");
 
             if (string.IsNullOrWhiteSpace(petHealthInfo))
-                return Result.Failure<Pet>("У животного должна быть информация о состоянии здоровья!");
+                return Result.Failure<Pet>("У питомца должна быть информация о состоянии здоровья!");
 
             if (string.IsNullOrWhiteSpace(address))
-                return Result.Failure<Pet>("У животного должен быть адрес!");
+                return Result.Failure<Pet>("У питомца должен быть адрес!");
 
             if (weight <= 0)
                 return Result.Failure<Pet>("Вес не может быть меньше или равен нулю!");
@@ -118,9 +121,11 @@ namespace PetFamily.Domain
                 return Result.Failure<Pet>("Не прикреплен телефон волонтера!");
 
             if (bankDetails is null)
-                return Result.Failure<Pet>("Не прикреплены банковские реквизиты для помощи животному!");
+                return Result.Failure<Pet>("Не прикреплены банковские реквизиты для помощи питомцу!");
 
-            var pet = new Pet(name, description, coloring, petHealthInfo, address, weight, growth, volunteerTelephone, isCastrated, dateOfBirth, isVaccinated, assistanceStatus, bankDetails);
+            var pet = new Pet(id, name, description, coloring, petHealthInfo, address, 
+                              weight, growth, volunteerTelephone, isCastrated, dateOfBirth, 
+                              isVaccinated, assistanceStatus, bankDetails);
 
             return Result.Success(pet);
         }
