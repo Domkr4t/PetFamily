@@ -1,9 +1,23 @@
-﻿namespace PetFamily.Domain
-{
-    public class PhoneNumber
-    {
-        public Guid Id { get; set; }
+﻿using CSharpFunctionalExtensions;
+using System.Runtime.InteropServices.Marshalling;
 
-        public string Value { get; set; } = default!;
+namespace PetFamily.Domain
+{
+    public record PhoneNumber
+    {
+        public string Value { get; }
+
+        private PhoneNumber(string value)
+        {
+            Value = value;
+        }
+
+        public static Result<PhoneNumber> Create(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return Result.Failure<PhoneNumber>("Телефон не может быть пустым");
+
+            return new PhoneNumber(value);  
+        }
     }
 }

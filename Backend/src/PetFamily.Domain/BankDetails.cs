@@ -6,7 +6,7 @@ namespace PetFamily.Domain
 {
     public class BankDetails
     {
-        public Guid Id { get; private set; }
+        public BankDetailsId Id { get; private set; }
 
         public string BankName { get; private set; } = default!;
 
@@ -24,7 +24,7 @@ namespace PetFamily.Domain
             
         }
 
-        private BankDetails(Guid id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
+        private BankDetails(BankDetailsId id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
         {
             Id = id;
             BankName = bankName;
@@ -34,7 +34,7 @@ namespace PetFamily.Domain
             KPP = kpp;
         }
 
-        public static Result<BankDetails> Create(Guid id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
+        public static Result<BankDetails> Create(BankDetailsId id, string bankName, string bic, string correspondentAccount, string inn, string kpp)
         {
             if (string.IsNullOrWhiteSpace(bankName))
                 return Result.Failure<BankDetails>("Не введено название банка");

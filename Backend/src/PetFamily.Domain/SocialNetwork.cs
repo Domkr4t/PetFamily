@@ -1,12 +1,29 @@
-﻿namespace PetFamily.Domain
+﻿using CSharpFunctionalExtensions;
+using System.Reflection.Metadata.Ecma335;
+
+namespace PetFamily.Domain
 {
-    public class SocialNetwork 
+    public record SocialNetwork 
     {
-        public Guid Id { get; set; }
+        public string Name { get; }
 
-        public string Name { get; set; } = default!;
+        public string Link { get; }
 
-        public string Link { get; set; } = default!;
+        private SocialNetwork(string name, string link)
+        {
+            Name = name;
+            Link = link;
+        }
+        
+        public static Result<SocialNetwork> Create (string name, string link)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+                return Result.Failure<SocialNetwork>("Название социальной сети не может быть пустым");
 
+            if (string.IsNullOrWhiteSpace(link))
+                return Result.Failure<SocialNetwork>("Ссылка не может быть пустой");
+
+            return new SocialNetwork(name, link);
+        }
     }
 }

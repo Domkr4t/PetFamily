@@ -1,11 +1,26 @@
-﻿namespace PetFamily.Domain
+﻿using CSharpFunctionalExtensions;
+
+namespace PetFamily.Domain
 {
-    public class PetPhoto
+    public record PetPhoto
     {
-        public Guid Id { get; set; }
+        public string Path { get; }
 
-        public string Path { get; set; } = default!;
+        public bool MainOrNot { get; }
 
-        public bool MainOrNot { get; set; }
+        private PetPhoto(string path, bool mainOrNot)
+        {
+            Path = path;
+            MainOrNot = mainOrNot;
+        }
+
+        public static Result<PetPhoto> Create (string path, bool mainOrNot)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+                return Result.Failure<PetPhoto>("Путь не может быть пустым");
+
+            return new PetPhoto(path, mainOrNot);
+
+        }
     }
 }

@@ -8,7 +8,7 @@ namespace PetFamily.Domain
         private readonly List<BankDetails> _bankDetails = [];
         private readonly List<PetPhoto> _petPhotos = [];
 
-        public Guid Id { get; private set; }
+        public PetId Id { get; private set; }
 
         public string Name { get; private set; } = default!;
 
@@ -46,7 +46,7 @@ namespace PetFamily.Domain
 
         }
 
-        private Pet(Guid id,
+        private Pet(PetId id,
                     string name, 
                     string description, 
                     string coloring, 
@@ -79,7 +79,7 @@ namespace PetFamily.Domain
             _petPhotos = petPhotos;
         }
 
-        public static Result<Pet> Create (Guid id,
+        public static Result<Pet> Create (PetId id,
                                           string name, 
                                           AnimalDetails animalDetails, 
                                           string description, 
