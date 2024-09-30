@@ -2,7 +2,7 @@
 
 namespace PetFamily.Domain
 {
-    public partial class Volunteer
+    public class Volunteer
     {
         private readonly List<Pet> _pets = [];
         private readonly List<SocialNetwork> _socialNetworks = [];
