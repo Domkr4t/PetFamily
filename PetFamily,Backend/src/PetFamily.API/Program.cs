@@ -1,9 +1,13 @@
+using PetFamily.Infrastucture;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<ApplicationDbConbext>();
 
 var app = builder.Build();
 
