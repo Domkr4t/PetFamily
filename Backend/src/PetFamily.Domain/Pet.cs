@@ -6,8 +6,9 @@ namespace PetFamily.Domain
     public class Pet
     {
         private readonly List<BankDetails> _bankDetails = [];
+        private readonly List<PetPhoto> _petPhotos = [];
 
-        public Guid Id { get; private set; }
+        public PetId Id { get; private set; }
 
         public string Name { get; private set; } = default!;
 
@@ -37,13 +38,15 @@ namespace PetFamily.Domain
 
         public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
 
+        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+
         //For EF Core
         private Pet()
         {
 
         }
 
-        private Pet(Guid id,
+        private Pet(PetId id,
                     string name, 
                     string description, 
                     string coloring, 
@@ -56,7 +59,8 @@ namespace PetFamily.Domain
                     DateOnly dateOfBirth, 
                     bool isVaccinated, 
                     AssistanceStatus assistanceStatus, 
-                    List<BankDetails> bankDetails)
+                    List<BankDetails> bankDetails,
+                    List<PetPhoto> petPhotos)
         {
             Id = id;
             Name = name;
@@ -72,9 +76,10 @@ namespace PetFamily.Domain
             IsVaccinated = isVaccinated;
             AssistanceStatus = assistanceStatus;
             _bankDetails = bankDetails;
+            _petPhotos = petPhotos;
         }
 
-        public static Result<Pet> Create (Guid id,
+        public static Result<Pet> Create (PetId id,
                                           string name, 
                                           AnimalDetails animalDetails, 
                                           string description, 
@@ -88,7 +93,8 @@ namespace PetFamily.Domain
                                           DateOnly dateOfBirth, 
                                           bool isVaccinated, 
                                           AssistanceStatus assistanceStatus, 
-                                          List<BankDetails> bankDetails) 
+                                          List<BankDetails> bankDetails,
+                                          List<PetPhoto> petPhoto) 
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result.Failure<Pet>("У питомца должно быть имя!");
@@ -123,9 +129,12 @@ namespace PetFamily.Domain
             if (bankDetails is null)
                 return Result.Failure<Pet>("Не прикреплены банковские реквизиты для помощи питомцу!");
 
+            if (petPhoto is null)
+                return Result.Failure<Pet>("Не прикреплены фотографии питомца!");
+
             var pet = new Pet(id, name, description, coloring, petHealthInfo, address, 
                               weight, growth, volunteerTelephone, isCastrated, dateOfBirth, 
-                              isVaccinated, assistanceStatus, bankDetails);
+                              isVaccinated, assistanceStatus, bankDetails, petPhoto);
 
             return Result.Success(pet);
         }

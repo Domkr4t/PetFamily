@@ -8,7 +8,7 @@ namespace PetFamily.Domain
         private readonly List<SocialNetwork> _socialNetworks = [];
         private readonly List<BankDetails> _bankDetails = [];
 
-        public Guid Id { get; private set; }
+        public VolunteerId Id { get; private set; }
 
         public string Surname { get; private set; } = default!;
 
@@ -45,7 +45,7 @@ namespace PetFamily.Domain
         private Volunteer(List<Pet> pets,
                           List<SocialNetwork> socialNetworks,
                           List<BankDetails> bankDetails,
-                          Guid id,
+                          VolunteerId id,
                           string surname,
                           string firstName,
                           string? patronymic,
@@ -69,8 +69,8 @@ namespace PetFamily.Domain
 
         public static Result<Volunteer> Create(List<Pet> pets, 
                                                List<SocialNetwork> socialNetworks, 
-                                               List<BankDetails> bankDetails, 
-                                               Guid id,
+                                               List<BankDetails> bankDetails,
+                                               VolunteerId id,
                                                string surname, 
                                                string firstName, 
                                                string? patronymic,

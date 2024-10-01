@@ -4,7 +4,7 @@ namespace PetFamily.Domain
 {
     public class AnimalDetails
     {
-        public Guid Id { get; private set; }
+        public AnimalDetailsId Id { get; private set; }
 
         public string Type { get; private set; } = default!;
 
@@ -16,14 +16,14 @@ namespace PetFamily.Domain
 
         }
 
-        private AnimalDetails(Guid id, string type, string breed)
+        private AnimalDetails(AnimalDetailsId id, string type, string breed)
         {
             Id = id;
             Type = type;
             Breed = breed;
         }
 
-        public static Result<AnimalDetails> Create (Guid id, string type, string breed)
+        public static Result<AnimalDetails> Create (AnimalDetailsId id, string type, string breed)
         {
             if (string.IsNullOrWhiteSpace(type))
                 return Result.Failure<AnimalDetails>("Не введен тип питомца!");
