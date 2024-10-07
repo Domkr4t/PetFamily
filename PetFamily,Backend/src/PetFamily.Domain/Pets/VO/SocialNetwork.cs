@@ -9,6 +9,10 @@ namespace PetFamily.Domain.Pets.VO
 
         public string Link { get; } 
 
+        private SocialNetwork() 
+        {
+            
+        }
 
         private SocialNetwork(string name, string link)
         {

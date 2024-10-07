@@ -45,15 +45,30 @@ namespace PetFamily.Infrastucture.Configuration
                 pb.Property(pn => pn.Value).IsRequired();
             });
 
-            //builder.ComplexProperty(v => v.SocialNetworks, sb =>
-            //{
-                
-            //});
+            builder.OwnsOne(v => v.SocialNetworks, sb =>
+            {
+                sb.ToJson();
 
-            //builder.ComplexProperty(v => v.BankDetails, bb =>
-            //{
-                
-            //});
+                sb.OwnsMany(f => f.Networks, nb =>
+                {
+                    nb.Property(n => n.Name).IsRequired();
+                    nb.Property(l => l.Link).IsRequired();
+                });
+            });
+
+            builder.OwnsOne(v => v.BankDetails, bb =>
+            {
+                bb.ToJson();
+
+                bb.OwnsMany(b => b.BankDetails, bBuilder =>
+                {
+                    bBuilder.Property(bn => bn.BankName).IsRequired();
+                    bBuilder.Property(bic => bic.BIC).IsRequired();
+                    bBuilder.Property(ca => ca.CorrespondentAccount).IsRequired();
+                    bBuilder.Property(inn => inn.INN).IsRequired();
+                    bBuilder.Property(kpp => kpp.KPP).IsRequired();
+                });
+            });
 
             builder.HasMany(v => v.Pets)
                    .WithOne()

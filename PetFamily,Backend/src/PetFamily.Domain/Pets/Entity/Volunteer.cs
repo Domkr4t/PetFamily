@@ -30,9 +30,9 @@ namespace PetFamily.Domain.Pets.Entity
 
         public PhoneNumber PhoneNumber { get; private set; } = default!;
 
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+        public SocialNetworkList SocialNetworks { get; private set; } = default!;
 
-        public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
+        public BankDetailsList BankDetails { get; private set; } = default!;
 
         public IReadOnlyList<Pet> Pets => _pets;
 
@@ -43,8 +43,8 @@ namespace PetFamily.Domain.Pets.Entity
         }
 
         private Volunteer(List<Pet> pets,
-                          List<SocialNetwork> socialNetworks,
-                          List<BankDetails> bankDetails,
+                          SocialNetworkList socialNetworks,
+                          BankDetailsList bankDetails,
                           VolunteerId id,
                           string surname,
                           string firstName,
@@ -55,8 +55,8 @@ namespace PetFamily.Domain.Pets.Entity
                           PhoneNumber phoneNumber) : base(id)
         {
             _pets = pets;
-            _socialNetworks = socialNetworks;
-            _bankDetails = bankDetails;
+            SocialNetworks = socialNetworks;
+            BankDetails = bankDetails;
             Surname = surname;
             FirstName = firstName;
             Patronymic = patronymic;
@@ -67,8 +67,8 @@ namespace PetFamily.Domain.Pets.Entity
         }
 
         public static Result<Volunteer> Create(List<Pet> pets,
-                                               List<SocialNetwork> socialNetworks,
-                                               List<BankDetails> bankDetails,
+                                               SocialNetworkList socialNetworks,
+                                               BankDetailsList bankDetails,
                                                VolunteerId id,
                                                string surname,
                                                string firstName,

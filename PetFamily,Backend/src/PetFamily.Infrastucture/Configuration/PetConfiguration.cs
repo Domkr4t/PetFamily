@@ -66,14 +66,29 @@ namespace PetFamily.Infrastucture.Configuration
             builder.Property(p => p.AssistanceStatus)
                    .IsRequired();
 
-            builder.ComplexProperty(p => p.BankDetails, bb =>
+            builder.OwnsOne(v => v.BankDetails, bb =>
             {
+                bb.ToJson();
 
+                bb.OwnsMany(b => b.BankDetails, bBuilder =>
+                {
+                    bBuilder.Property(bn => bn.BankName).IsRequired();
+                    bBuilder.Property(bic => bic.BIC).IsRequired();
+                    bBuilder.Property(ca => ca.CorrespondentAccount).IsRequired();
+                    bBuilder.Property(inn => inn.INN).IsRequired();
+                    bBuilder.Property(kpp => kpp.KPP).IsRequired();
+                });
             });
 
-            builder.ComplexProperty(p => p.PetPhotos, pb =>
+            builder.OwnsOne(p => p.PetPhotos, pb =>
             {
+                pb.ToJson();
 
+                pb.OwnsMany(pf => pf.PetPhotos, petPhotoBuilder =>
+                {
+                    petPhotoBuilder.Property(path => path.Path).IsRequired();
+                    petPhotoBuilder.Property(mon => mon.MainOrNot).IsRequired();
+                });
             });
         }
     }

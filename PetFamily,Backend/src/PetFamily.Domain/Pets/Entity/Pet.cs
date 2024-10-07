@@ -35,9 +35,9 @@ namespace PetFamily.Domain.Pets.Entity
 
         public AssistanceStatus AssistanceStatus { get; private set; } = default!;
 
-        public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
+        public BankDetailsList BankDetails { get; private set; } = default!;
 
-        public IReadOnlyList<PetPhoto> PetPhotos => _petPhotos;
+        public PetPhotoList PetPhotos { get; private set; } = default!;
 
         //For EF Core
         private Pet(PetId id) : base(id)
@@ -58,8 +58,8 @@ namespace PetFamily.Domain.Pets.Entity
                     DateOnly dateOfBirth,
                     bool isVaccinated,
                     AssistanceStatus assistanceStatus,
-                    List<BankDetails> bankDetails,
-                    List<PetPhoto> petPhotos) : base(id)
+                    BankDetailsList bankDetails,
+                    PetPhotoList petPhotos) : base(id)
         {
             Name = name;
             Description = description;
@@ -73,8 +73,8 @@ namespace PetFamily.Domain.Pets.Entity
             DateOfBirth = dateOfBirth;
             IsVaccinated = isVaccinated;
             AssistanceStatus = assistanceStatus;
-            _bankDetails = bankDetails;
-            _petPhotos = petPhotos;
+            BankDetails = bankDetails;
+            PetPhotos = petPhotos;
         }
 
         public static Result<Pet> Create(PetId id,
@@ -91,8 +91,8 @@ namespace PetFamily.Domain.Pets.Entity
                                          DateOnly dateOfBirth,
                                          bool isVaccinated,
                                          AssistanceStatus assistanceStatus,
-                                         List<BankDetails> bankDetails,
-                                         List<PetPhoto> petPhoto)
+                                         BankDetailsList bankDetails,
+                                         PetPhotoList petPhoto)
         {
             if (string.IsNullOrWhiteSpace(name))
                 return Result<Pet>.Failure("У питомца должно быть имя!");

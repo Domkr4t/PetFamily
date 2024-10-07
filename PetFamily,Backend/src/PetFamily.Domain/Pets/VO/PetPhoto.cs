@@ -8,6 +8,10 @@ namespace PetFamily.Domain.Pets.VO
 
         public bool MainOrNot { get; }
 
+        private PetPhoto()
+        {
+            
+        }
 
         private PetPhoto(string path, bool mainOrNot)
         {

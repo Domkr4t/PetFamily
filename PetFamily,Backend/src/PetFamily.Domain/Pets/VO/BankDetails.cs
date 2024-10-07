@@ -16,6 +16,11 @@ namespace PetFamily.Domain.Pets.VO
 
         public string KPP { get; private set; } = default!;
 
+        private BankDetails()
+        {
+            
+        }
+
         private BankDetails(string bankName, string bic, string correspondentAccount, string inn, string kpp)
         {
             BankName = bankName;
