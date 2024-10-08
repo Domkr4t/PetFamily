@@ -1,12 +1,17 @@
-﻿using CSharpFunctionalExtensions;
+﻿using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain
+namespace PetFamily.Domain.Pets.VO
 {
     public record PetPhoto
     {
-        public string Path { get; }
+        public string Path { get; } 
 
         public bool MainOrNot { get; }
+
+        private PetPhoto()
+        {
+            
+        }
 
         private PetPhoto(string path, bool mainOrNot)
         {
@@ -14,10 +19,10 @@ namespace PetFamily.Domain
             MainOrNot = mainOrNot;
         }
 
-        public static Result<PetPhoto> Create (string path, bool mainOrNot)
+        public static Result<PetPhoto> Create(string path, bool mainOrNot)
         {
             if (string.IsNullOrWhiteSpace(path))
-                return Result.Failure<PetPhoto>("Путь не может быть пустым");
+                return Result<PetPhoto>.Failure("Путь не может быть пустым");
 
             return new PetPhoto(path, mainOrNot);
 

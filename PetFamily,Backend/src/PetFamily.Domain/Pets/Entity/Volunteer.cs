@@ -1,14 +1,14 @@
-﻿using CSharpFunctionalExtensions;
+﻿using PetFamily.Domain.Pets.Enum;
+using PetFamily.Domain.Pets.VO;
+using PetFamily.Domain.Shared;
 
-namespace PetFamily.Domain
+namespace PetFamily.Domain.Pets.Entity
 {
-    public class Volunteer
+    public class Volunteer : Entity<VolunteerId>
     {
         private readonly List<Pet> _pets = [];
         private readonly List<SocialNetwork> _socialNetworks = [];
         private readonly List<BankDetails> _bankDetails = [];
-
-        public VolunteerId Id { get; private set; }
 
         public string Surname { get; private set; } = default!;
 
@@ -20,7 +20,7 @@ namespace PetFamily.Domain
 
         public string Description { get; private set; } = default!;
 
-        public int YearsOfExperience { get; private set; } 
+        public int YearsOfExperience { get; private set; }
 
         public int AnimalsFoundHomes => _pets.Count(x => x.AssistanceStatus == AssistanceStatus.FoundHouse);
 
@@ -30,34 +30,33 @@ namespace PetFamily.Domain
 
         public PhoneNumber PhoneNumber { get; private set; } = default!;
 
-        public IReadOnlyList<SocialNetwork> SocialNetworks => _socialNetworks;
+        public SocialNetworkList SocialNetworks { get; private set; } = default!;
 
-        public IReadOnlyList<BankDetails> BankDetails => _bankDetails;
+        public BankDetailsList BankDetails { get; private set; } = default!;
 
         public IReadOnlyList<Pet> Pets => _pets;
 
         //For EF Core
-        private Volunteer()
+        private Volunteer(VolunteerId id) : base(id)
         {
 
         }
 
         private Volunteer(List<Pet> pets,
-                          List<SocialNetwork> socialNetworks,
-                          List<BankDetails> bankDetails,
+                          SocialNetworkList socialNetworks,
+                          BankDetailsList bankDetails,
                           VolunteerId id,
                           string surname,
                           string firstName,
                           string? patronymic,
                           string email,
-                          string description, 
-                          int yearsOfExperience, 
-                          PhoneNumber phoneNumber)
+                          string description,
+                          int yearsOfExperience,
+                          PhoneNumber phoneNumber) : base(id)
         {
             _pets = pets;
-            _socialNetworks = socialNetworks;
-            _bankDetails = bankDetails;
-            Id = id;
+            SocialNetworks = socialNetworks;
+            BankDetails = bankDetails;
             Surname = surname;
             FirstName = firstName;
             Patronymic = patronymic;
@@ -67,51 +66,51 @@ namespace PetFamily.Domain
             PhoneNumber = phoneNumber;
         }
 
-        public static Result<Volunteer> Create(List<Pet> pets, 
-                                               List<SocialNetwork> socialNetworks, 
-                                               List<BankDetails> bankDetails,
+        public static Result<Volunteer> Create(List<Pet> pets,
+                                               SocialNetworkList socialNetworks,
+                                               BankDetailsList bankDetails,
                                                VolunteerId id,
-                                               string surname, 
-                                               string firstName, 
+                                               string surname,
+                                               string firstName,
                                                string? patronymic,
                                                string email,
-                                               string description, 
-                                               int yearsOfExperience, 
+                                               string description,
+                                               int yearsOfExperience,
                                                PhoneNumber phoneNumber)
         {
 
             if (pets == null)
-                return Result.Failure<Volunteer>("К волонтеру не прикреплены питомцы!");
+                return Result<Volunteer>.Failure("К волонтеру не прикреплены питомцы!");
 
             if (socialNetworks == null)
-                return Result.Failure<Volunteer>("Не введены социальные сети!");
+                return Result<Volunteer>.Failure("Не введены социальные сети!");
 
             if (bankDetails == null)
-                return Result.Failure<Volunteer>("Не введены банковские реквизиты!");
+                return Result<Volunteer>.Failure("Не введены банковские реквизиты!");
 
             if (string.IsNullOrWhiteSpace(surname))
-                return Result.Failure<Volunteer>("Не введена фамилия!");
-            
+                return Result<Volunteer>.Failure("Не введена фамилия!");
+
             if (string.IsNullOrWhiteSpace(firstName))
-                return Result.Failure<Volunteer>("Не введено имя!");
+                return Result<Volunteer>.Failure("Не введено имя!");
 
             if (string.IsNullOrWhiteSpace(email))
-                return Result.Failure<Volunteer>("Не введен email!");
+                return Result<Volunteer>.Failure("Не введен email!");
 
             if (string.IsNullOrWhiteSpace(description))
-                return Result.Failure<Volunteer>("Не введено описание!");
+                return Result<Volunteer>.Failure("Не введено описание!");
 
             if (yearsOfExperience <= 0)
-                return Result.Failure<Volunteer>("Не правильно введен стаж!");
+                return Result<Volunteer>.Failure("Не правильно введен стаж!");
 
             if (phoneNumber == null)
-                return Result.Failure<Volunteer>("Не введен номер телефона!");
+                return Result<Volunteer>.Failure("Не введен номер телефона!");
 
 
-            var volunteer = new Volunteer(pets, socialNetworks, bankDetails, id, surname, 
+            var volunteer = new Volunteer(pets, socialNetworks, bankDetails, id, surname,
                                           firstName, patronymic, email, description, yearsOfExperience, phoneNumber);
 
-            return Result.Success(volunteer);
+            return Result<Volunteer>.Success(volunteer);
         }
     }
 }
