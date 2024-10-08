@@ -23,8 +23,8 @@ namespace PetFamily.Infrastucture.Configuration
 
             builder.ComplexProperty(p => p.PetDetails, pb =>
             {
-                pb.Property(pd => pd.Type).IsRequired();
-                pb.Property(pd => pd.Breed).IsRequired();
+                pb.Property(si => si.SpecieId).IsRequired();
+                pb.Property(bi => bi.BreedId).IsRequired();
             });
         
             builder.Property(p => p.Description)

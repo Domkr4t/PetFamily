@@ -1,31 +1,21 @@
 ﻿using PetFamily.Domain.Shared;
+using PetFamily.Domain.Species.VO;
 
 namespace PetFamily.Domain.Pets.VO
 {
     public record PetDetails
     {
-        public string Type { get; private set; } = default!;
+        public Guid SpecieId { get; }
 
-        public string Breed { get; private set; } = default!;
+        public Guid BreedId { get; }
 
-        private PetDetails(string type, string breed)
+        private PetDetails(Guid specieId, Guid breedId)
         {
-            Type = type;
-            Breed = breed;
+            SpecieId = specieId;
+            BreedId = breedId;  
         }
 
-        public static Result<PetDetails> Create(string type, string breed)
-        {
-            //потом отредачу, когда буду переносить это в Entity
-
-            if (string.IsNullOrWhiteSpace(type))
-                return Result<PetDetails>.Failure("Не введен тип питомца");
-
-            if (string.IsNullOrWhiteSpace(breed))
-                return Result<PetDetails>.Failure("Не введена порода питомца");
-
-            return new PetDetails(type, breed);
-
-        }
+        public static Result<PetDetails> Create(Guid specieId, Guid SbreedId) 
+                      => new PetDetails(specieId, breedId);
     }
 }
