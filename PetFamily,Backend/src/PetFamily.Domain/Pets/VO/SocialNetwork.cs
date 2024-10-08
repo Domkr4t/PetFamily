@@ -1,10 +1,9 @@
 ﻿using PetFamily.Domain.Shared;
-using System.Reflection.Metadata.Ecma335;
 
 namespace PetFamily.Domain.Pets.VO
 {
     public record SocialNetwork
-    {
+    { 
         public string Name { get; }
 
         public string Link { get; } 
@@ -27,8 +26,10 @@ namespace PetFamily.Domain.Pets.VO
 
             if (string.IsNullOrWhiteSpace(link))
                 return Result<SocialNetwork>.Failure("Ссылка не может быть пустой");
+            if (Uri.IsWellFormedUriString(link, UriKind.Absolute))
+                return Result<SocialNetwork>.Failure("Сcылка неправильно введена");
 
-            return new SocialNetwork(name, link);
+                return new SocialNetwork(name, link);
         }
     }
 }

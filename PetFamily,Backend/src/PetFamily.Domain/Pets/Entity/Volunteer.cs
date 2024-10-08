@@ -1,6 +1,8 @@
 ﻿using PetFamily.Domain.Pets.Enum;
 using PetFamily.Domain.Pets.VO;
 using PetFamily.Domain.Shared;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace PetFamily.Domain.Pets.Entity
 {
@@ -80,31 +82,37 @@ namespace PetFamily.Domain.Pets.Entity
         {
 
             if (pets == null)
-                return Result<Volunteer>.Failure("К волонтеру не прикреплены питомцы!");
+                return Result<Volunteer>.Failure("К волонтеру не прикреплены питомцы");
 
             if (socialNetworks == null)
-                return Result<Volunteer>.Failure("Не введены социальные сети!");
+                return Result<Volunteer>.Failure("Не введены социальные сети");
 
             if (bankDetails == null)
-                return Result<Volunteer>.Failure("Не введены банковские реквизиты!");
+                return Result<Volunteer>.Failure("Не введены банковские реквизиты");
 
             if (string.IsNullOrWhiteSpace(surname))
-                return Result<Volunteer>.Failure("Не введена фамилия!");
+                return Result<Volunteer>.Failure("Не введена фамилия");
+            if (!Regex.IsMatch(surname, @"^[a-zA-Z-]+$"))
+                return Result<Volunteer>.Failure("В фамилии не долно быть цифр и других символов(кроме дефиса)");
 
             if (string.IsNullOrWhiteSpace(firstName))
-                return Result<Volunteer>.Failure("Не введено имя!");
+                return Result<Volunteer>.Failure("Не введено имя");
+            if (!Regex.IsMatch(surname, @"^[a-zA-Z-]+$"))
+                return Result<Volunteer>.Failure("В имени не долно быть цифр и других символов(кроме дефиса)");
 
             if (string.IsNullOrWhiteSpace(email))
-                return Result<Volunteer>.Failure("Не введен email!");
+                return Result<Volunteer>.Failure("Не введен email");
+            if (!email.Contains('@') && email.Contains('.'))
+                return Result<Volunteer>.Failure("Не правильно введен email");
 
             if (string.IsNullOrWhiteSpace(description))
-                return Result<Volunteer>.Failure("Не введено описание!");
+                return Result<Volunteer>.Failure("Не введено описание");
 
-            if (yearsOfExperience <= 0)
-                return Result<Volunteer>.Failure("Не правильно введен стаж!");
+            if (yearsOfExperience < 0)
+                return Result<Volunteer>.Failure("Стаж не может быть меньше нуля");
 
             if (phoneNumber == null)
-                return Result<Volunteer>.Failure("Не введен номер телефона!");
+                return Result<Volunteer>.Failure("Не введен номер телефона");
 
 
             var volunteer = new Volunteer(pets, socialNetworks, bankDetails, id, surname,

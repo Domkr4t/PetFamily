@@ -1,4 +1,5 @@
 ﻿using PetFamily.Domain.Shared;
+using System.Text.RegularExpressions;
 
 namespace PetFamily.Domain.Pets.VO
 {
@@ -23,6 +24,8 @@ namespace PetFamily.Domain.Pets.VO
         {
             if (string.IsNullOrWhiteSpace(path))
                 return Result<PetPhoto>.Failure("Путь не может быть пустым");
+            if (!Regex.IsMatch(path, @"^[a-zA-Z]:\\|\\\\[a-zA-Z0-9_\\-\. ]+$"))
+                return Result<PetPhoto>.Failure("Путь неправильно введен");
 
             return new PetPhoto(path, mainOrNot);
 
