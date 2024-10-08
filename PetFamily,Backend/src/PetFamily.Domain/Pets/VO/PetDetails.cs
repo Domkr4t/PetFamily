@@ -16,11 +16,13 @@ namespace PetFamily.Domain.Pets.VO
 
         public static Result<PetDetails> Create(string type, string breed)
         {
+            //потом отредачу, когда буду переносить это в Entity
+
             if (string.IsNullOrWhiteSpace(type))
-                return Result<PetDetails>.Failure("Не введен тип питомца!");
+                return Result<PetDetails>.Failure("Не введен тип питомца");
 
             if (string.IsNullOrWhiteSpace(breed))
-                return Result<PetDetails>.Failure("Не введена порода питомца!");
+                return Result<PetDetails>.Failure("Не введена порода питомца");
 
             return new PetDetails(type, breed);
 

@@ -39,9 +39,15 @@ namespace PetFamily.Infrastucture.Configuration
                    .IsRequired()
                    .HasMaxLength(Constants.DESCRIPTION_LENGTH);
 
-            builder.Property(p => p.Address)
-                   .IsRequired()
-                   .HasMaxLength(Constants.ADDRESS_LENGTH);
+            builder.ComplexProperty(a => a.Address, ab =>
+            {
+                ab.Property(c => c.Country).IsRequired();
+                ab.Property(r => r.Region).IsRequired();
+                ab.Property(ci => ci.City).IsRequired();
+                ab.Property(h => h.House).IsRequired();
+                ab.Property(f => f.Flat).IsRequired();
+                ab.Property(p => p.PostalCode).IsRequired();
+            });
 
             builder.Property(p => p.Weight)
                    .IsRequired();
