@@ -5,17 +5,22 @@ namespace PetFamily.Domain.Pets.VO
 {
     public record PetDetails
     {
-        public Guid SpecieId { get; }
+        public SpecieId SpecieId { get; }
 
         public Guid BreedId { get; }
 
-        private PetDetails(Guid specieId, Guid breedId)
+        private PetDetails() 
+        { 
+            
+        }
+
+        private PetDetails(SpecieId specieId, Guid breedId)
         {
             SpecieId = specieId;
             BreedId = breedId;  
         }
 
-        public static Result<PetDetails> Create(Guid specieId, Guid SbreedId) 
+        public static Result<PetDetails> Create(SpecieId specieId, Guid breedId) 
                       => new PetDetails(specieId, breedId);
     }
 }
