@@ -2,16 +2,13 @@
 {
     public record SocialNetworkList
     {
-        public IReadOnlyList<SocialNetwork> Networks { get; }
+        public IReadOnlyList<SocialNetwork> Networks { get; } = default!;
 
         private SocialNetworkList()
         {
 
         }
 
-        public SocialNetworkList(List<SocialNetwork> networks)
-        {
-            Networks = networks;
-        }
+        public SocialNetworkList(List<SocialNetwork> networks) => Networks = networks;
     }
 }

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PetFamily.Infrastucture;
@@ -12,9 +13,11 @@ using PetFamily.Infrastucture;
 namespace PetFamily.Infrastucture.Migrations
 {
     [DbContext(typeof(ApplicationDbConbext))]
-    partial class ApplicationDbConbextModelSnapshot : ModelSnapshot
+    [Migration("20241008144643_Initial2")]
+    partial class Initial2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,6 +126,10 @@ namespace PetFamily.Infrastucture.Migrations
                             b1.Property<Guid>("BreedId")
                                 .HasColumnType("uuid")
                                 .HasColumnName("pet_details_breed_id");
+
+                            b1.Property<Guid>("SpecieId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("pet_details_specie_id");
                         });
 
                     b.ComplexProperty<Dictionary<string, object>>("VolunteerTelephone", "PetFamily.Domain.Pets.Entity.Pet.VolunteerTelephone#PhoneNumber", b1 =>

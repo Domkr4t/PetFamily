@@ -8,19 +8,19 @@ namespace PetFamily.Domain.Pets.VO
 {
     public class BankDetails
     {
-        public string BankName { get; private set; } = default!;
+        public string BankName { get; } = default!;
 
-        public string BIC { get; private set; } = default!;
+        public string BIC { get; } = default!;
 
-        public string CorrespondentAccount { get; private set; } = default!;
+        public string CorrespondentAccount { get; } = default!;
 
-        public string INN { get; private set; } = default!;
+        public string INN { get; } = default!;
 
-        public string KPP { get; private set; } = default!;
+        public string KPP { get; } = default!;
 
         private BankDetails()
         {
-            
+
         }
 
         private BankDetails(string bankName, string bic, string correspondentAccount, string inn, string kpp)

@@ -2,7 +2,7 @@
 {
     public record BankDetailsList
     {
-        public IReadOnlyList<BankDetails> BankDetails { get; }
+        public IReadOnlyList<BankDetails> BankDetails { get; } = default!;
 
         private BankDetailsList()
         {
@@ -10,9 +10,6 @@
         }
 
 
-        public BankDetailsList(List<BankDetails> bankDetails)
-        {
-            BankDetails = bankDetails;
-        }
+        public BankDetailsList(List<BankDetails> bankDetails) => BankDetails = bankDetails;
     }
 }

@@ -4,9 +4,9 @@ namespace PetFamily.Domain.Pets.VO
 {
     public record SocialNetwork
     { 
-        public string Name { get; }
+        public string Name { get; } = default!;
 
-        public string Link { get; } 
+        public string Link { get; } = default!;
 
         private SocialNetwork() 
         {

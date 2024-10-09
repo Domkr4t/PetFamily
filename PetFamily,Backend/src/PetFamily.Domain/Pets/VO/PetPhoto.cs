@@ -5,7 +5,7 @@ namespace PetFamily.Domain.Pets.VO
 {
     public record PetPhoto
     {
-        public string Path { get; } 
+        public string Path { get; } = default!;
 
         public bool MainOrNot { get; }
 

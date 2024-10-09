@@ -5,8 +5,7 @@ namespace PetFamily.Domain.Pets.VO
 {
     public record PhoneNumber
     {
-        public string Value { get; } = default!;
-
+        public string Value { get; }
 
         private PhoneNumber(string value)
         {
