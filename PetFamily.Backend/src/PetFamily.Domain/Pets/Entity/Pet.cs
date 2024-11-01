@@ -7,9 +7,6 @@ namespace PetFamily.Domain.Pets.Entity
 {
     public class Pet : Entity<PetId>
     {
-        private readonly List<BankDetails> _bankDetails = [];
-        private readonly List<PetPhoto> _petPhotos = [];
-
         public string Name { get; private set; } = default!;
 
         public PetDetails PetDetails { get; private set; } = default!;

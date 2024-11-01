@@ -21,6 +21,15 @@
                 return Error.Validation("record.not.found", $"{label} not found{forId}");
             }
 
+            public static Error VolunteerNotFoundByEmail(string? name = null, string? email = null)
+            {
+
+                string label = name[..1].ToUpper() + name[1..] ?? "Value";
+                string forEmail = email == null ? "" : $" for e-mail: {email}";
+
+                return Error.Validation("record.not.found", $"{label} not found{forEmail}");
+            }
+
             public static Error ValueIsRequired(string? name = null)
             {
 

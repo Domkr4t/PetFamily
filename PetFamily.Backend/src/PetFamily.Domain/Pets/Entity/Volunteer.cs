@@ -7,8 +7,6 @@ namespace PetFamily.Domain.Pets.Entity
     public class Volunteer : Entity<VolunteerId>
     {
         private readonly List<Pet> _pets = [];
-        private readonly List<SocialNetwork> _socialNetworks = [];
-        private readonly List<BankDetails> _bankDetails = [];
 
         public FullName FullName { get; private set; } = default!;
 
@@ -56,7 +54,7 @@ namespace PetFamily.Domain.Pets.Entity
             PhoneNumber = phoneNumber;
         }
 
-        public static Result<Volunteer, Error> Create(VolunteerId id, 
+        public static Result<Volunteer, Error> Create(VolunteerId id,
                                                SocialNetworkList socialNetworks,
                                                BankDetailsList bankDetails,
                                                FullName fullName,
