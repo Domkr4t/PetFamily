@@ -2,12 +2,11 @@
 
 namespace PetFamily.Application.Volunteers.CreateVolunteer
 {
-    public record CreateVolunteerRequest(List<SocialNetworkDto> SocialNetworkListDto,
-                                         List<BankDetailsDto> BankDetailsListDto,
+    public record CreateVolunteerRequest(IEnumerable<SocialNetworkDto> SocialNetworkListDto,
+                                         IEnumerable<BankDetailsDto> BankDetailsListDto,
                                          FullNameDto FullNameDto,
                                          string Email,
                                          string Description,
                                          int YearsOfExperience,
                                          PhoneNumberDto PhoneNumberDto);
-
 }

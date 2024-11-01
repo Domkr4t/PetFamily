@@ -39,9 +39,9 @@ namespace PetFamily.Domain.Pets.VO
                 return Errors.General.ValueContainsInvalidCharacters("bankName");
 
             if (string.IsNullOrWhiteSpace(bic))
-                return Errors.General.ValueIsInvalid("bic");
+                return Errors.General.ValueIsInvalid("BIC");
             if (!Regex.IsMatch(bic, @"^\d+$"))
-                return Errors.General.ValueContainsInvalidCharacters("bic");
+                return Errors.General.ValueContainsInvalidCharacters("BIC");
 
             if (string.IsNullOrWhiteSpace(correspondentAccount))
                 return Errors.General.ValueIsInvalid("correspondentAccount");
@@ -51,18 +51,18 @@ namespace PetFamily.Domain.Pets.VO
                 return Errors.General.ValueContainsInvalidCharacters("correspondentAccount"); 
 
             if (string.IsNullOrWhiteSpace(kpp))
-                return Errors.General.ValueIsInvalid("kpp");
+                return Errors.General.ValueIsInvalid("KPP");
             if (kpp.Length != 9)
-                return Errors.General.ValueIsInvalid("kpp");
+                return Errors.General.ValueIsInvalid("KPP");
             if (!Regex.IsMatch(kpp, @"^\d+$"))
-                return Errors.General.ValueContainsInvalidCharacters("kpp");
+                return Errors.General.ValueContainsInvalidCharacters("KPP");
 
             if (string.IsNullOrWhiteSpace(inn))
-                return Errors.General.ValueIsInvalid("inn");
+                return Errors.General.ValueIsInvalid("INN");
             if (inn.Length != 10 & inn.Length != 12)
-                return Errors.General.ValueIsInvalid("inn");
+                return Errors.General.ValueIsInvalid("INN");
             if (!Regex.IsMatch(inn, @"^\d+$"))
-                return Errors.General.ValueContainsInvalidCharacters("inn");
+                return Errors.General.ValueContainsInvalidCharacters("INN");
 
             return new BankDetails(bankName, bic, correspondentAccount, inn, kpp);
         }

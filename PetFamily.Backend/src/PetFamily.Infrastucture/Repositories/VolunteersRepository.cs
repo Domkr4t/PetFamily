@@ -1,9 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PetFamily.Application.Volunteers;
 using PetFamily.Domain.Pets.Entity;
-using PetFamily.Domain.Pets.VO;
 using PetFamily.Domain.Shared;
-using PetFamily.Domain.Species;
 
 namespace PetFamily.Infrastucture.Repositories
 {
@@ -25,11 +23,13 @@ namespace PetFamily.Infrastucture.Repositories
             return volunteer.Id.Value;
         }
 
-        public async Task<Result<Volunteer, Error>> GetById(VolunteerId volunteerId)
+        public async Task<Result<Volunteer, Error>> GetByEmail(
+            string volunteerEmail,
+            CancellationToken cancellationToken = default)
         {
             var volunteer = await _dbConbext.Volunteers
                                             .Include(v => v.Pets)
-                                            .FirstOrDefaultAsync(v => v.Id == volunteerId);
+                                            .FirstOrDefaultAsync(v => v.Email == volunteerEmail);
 
             if (volunteer == null)
                 return Errors.General.NotFound("volunteer");

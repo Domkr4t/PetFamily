@@ -1,4 +1,5 @@
-﻿using PetFamily.Domain.Pets.Entity;
+﻿using FluentValidation;
+using PetFamily.Domain.Pets.Entity;
 using PetFamily.Domain.Pets.VO;
 using PetFamily.Domain.Shared;
 
@@ -14,52 +15,37 @@ namespace PetFamily.Application.Volunteers.CreateVolunteer
             _volunteersRepository = volunteersRepository;
         }
 
-        public async Task<Result<Guid, Error>> Handle(CreateVolunteerRequest request, CancellationToken cancellationToken = default)
+        public async Task<Result<Guid, Error>> Handle(
+            CreateVolunteerRequest request,
+            CancellationToken cancellationToken = default)
         {
-
             var volunteerId = VolunteerId.NewVolunteerId();
 
-
             var socialNetworks = request.SocialNetworkListDto
-                .Select(s => SocialNetwork.Create(s.Name, s.Link));
-            if (socialNetworks.First().IsFailure)
-                return Errors.General.ValueIsInvalid("socialNetworks", socialNetworks.First().Error.Message);
+                .Select(s => SocialNetwork.Create(s.Name, s.Link).Value);
 
-            var socialNetworksList = new SocialNetworkList(socialNetworks.Select(x => x.Value).ToList());
-            if (socialNetworksList is null)
-                return Errors.General.ValueIsInvalid("socialNetworksList");
+            var socialNetworksList = new SocialNetworkList(socialNetworks.ToList());
 
 
             var bankDetails = request.BankDetailsListDto
-                .Select(b => BankDetails.Create(b.BankName, b.BIC, b.CorrespondentAccount, b.INN, b.KPP));
-            if (bankDetails.First().IsFailure)
-            {
-                return Errors.General.ValueIsInvalid("bankDetails", bankDetails.First().Error.Message);
-            }
+                .Select(b => BankDetails.Create(b.BankName, b.BIC, b.CorrespondentAccount, b.INN, b.KPP).Value);
 
-            var bankDetailsList = new BankDetailsList(bankDetails.Select(x => x.Value).ToList()) ;
-            if (bankDetailsList is null)
-                return Errors.General.ValueIsInvalid("bankDetailsList");
-
+            var bankDetailsList = new BankDetailsList(bankDetails.ToList());
 
             var fullName = FullName.Create(request.FullNameDto.FirstName,
                                            request.FullNameDto.Surname,
-                                           request.FullNameDto.Patronymic);
-            if (fullName.IsFailure)
-                return Errors.General.ValueIsInvalid("fullName");
+                                           request.FullNameDto.Patronymic).Value;
 
-            var phoneNumber = PhoneNumber.Create(request.PhoneNumberDto.Value);
-            if (phoneNumber.IsFailure)
-                return Errors.General.ValueIsInvalid("phoneNumber");
+            var phoneNumber = PhoneNumber.Create(request.PhoneNumberDto.Value).Value;
 
-            var volunteerResult = Volunteer.Create(volunteerId, 
+            var volunteerResult = Volunteer.Create(volunteerId,
                                              socialNetworksList,
-                                             bankDetailsList, 
-                                             fullName.Value,
+                                             bankDetailsList,
+                                             fullName,
                                              request.Email,
                                              request.Description,
                                              request.YearsOfExperience,
-                                             phoneNumber.Value);
+                                             phoneNumber);
 
             if (volunteerResult.IsFailure)
                 return Errors.General.ValueIsInvalid("volunteerResult");
